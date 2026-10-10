@@ -1,0 +1,16 @@
+{
+  "name": "Design Avelton",
+  "slug": "design-avelton",
+  "domain": "design.avelton.online",
+  "app_id": "online.avelton.design",
+  "version": "0.5.0-avelton.1",
+  "upstream": {
+    "repository": "storytold/designcraft",
+    "commit": "fc2ce5556f0e5fa93d1678cadc57792acd434591",
+    "installer_upgrade_code": "49E87D30-BB68-4896-AA1D-F45C833CFC3C"
+  },
+  "release": {
+    "unsigned": true,
+    "channel": "alpha"
+  }
+}

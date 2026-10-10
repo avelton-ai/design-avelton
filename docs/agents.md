@@ -1,6 +1,6 @@
-# Driving DesignCraft from agents and scripts
+# Driving Design Avelton from agents and scripts
 
-Every user-visible action in DesignCraft is a command (`crates/engine/src/cmd`), and every command is reachable
+Every user-visible action in Design Avelton is a command (`crates/engine/src/cmd`), and every command is reachable
 three ways — pick whichever fits the agent:
 
 | Surface | Use it when | Entry point |

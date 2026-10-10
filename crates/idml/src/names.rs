@@ -1,4 +1,4 @@
-//! Name and enumeration mappings between the DesignCraft model and IDML.
+//! Name and enumeration mappings between the Design Avelton model and IDML.
 
 use designcraft_color::BlendMode;
 use designcraft_doc::{

@@ -1,19 +1,19 @@
-//! ArtCraft community and project links (Help menu, About, start screen, CLI, MCP).
+//! Avelton community and project links (Help menu, About, start screen, CLI, MCP).
 
 use serde_json::{Value, json};
 
 /// The app's slug on getartcraft.com and GitHub.
 pub const APP: &str = "designcraft";
-/// The ArtCraft community Discord.
-pub const DISCORD: &str = "https://discord.gg/artcraft";
-/// The ArtCraft website.
-pub const WEBSITE: &str = "https://getartcraft.com";
-/// DesignCraft's page on the ArtCraft website.
-pub const APP_PAGE: &str = "https://getartcraft.com/apps/designcraft";
-/// DesignCraft's source repository.
-pub const GITHUB: &str = "https://github.com/storytold/designcraft";
+/// The Avelton community Discord.
+pub const DISCORD: &str = "https://github.com/avelton-ai/design-avelton/issues";
+/// The Avelton website.
+pub const WEBSITE: &str = "https://avelton.online";
+/// Design Avelton's page on the Avelton website.
+pub const APP_PAGE: &str = "https://design.avelton.online";
+/// Design Avelton's source repository.
+pub const GITHUB: &str = "https://github.com/avelton-ai/design-avelton";
 /// Where to report bugs and request features.
-pub const ISSUES: &str = "https://github.com/storytold/designcraft/issues";
+pub const ISSUES: &str = "https://github.com/avelton-ai/design-avelton/issues";
 
 /// All links as JSON (the `app.links` command).
 pub fn all() -> Value {

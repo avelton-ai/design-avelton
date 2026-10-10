@@ -86,7 +86,7 @@ fn write_links(d: &Document, dir: &Path, only: Option<&[AssetId]>) -> Result<(Do
 /// report adds after the font's name (nothing when copied).
 fn copy_font(face: &FontFace, dir: &Path, copied: &mut Vec<PathBuf>, taken: &mut Vec<String>, files: &mut Vec<PathBuf>) -> String {
     let from = match &face.source {
-        FontSource::Bundled => return " — included with DesignCraft".into(),
+        FontSource::Bundled => return " — included with Design Avelton".into(),
         FontSource::Memory => return " — not copied: no font file".into(),
         FontSource::Installed(p) | FontSource::Document(p) => p,
     };
@@ -313,7 +313,7 @@ mod tests {
         let report = r["report"].as_str().unwrap();
         assert!(report.contains(&format!("{RESTRICTED} Regular — not copied: its licence doesn't allow it")), "{report}");
         assert!(report.contains(&format!("{FREE} Regular\n")), "{report}");
-        assert!(report.contains(&format!("{} Regular — included with DesignCraft", designcraft_fonts::DEFAULT_FAMILY)), "{report}");
+        assert!(report.contains(&format!("{} Regular — included with Design Avelton", designcraft_fonts::DEFAULT_FAMILY)), "{report}");
         // The packaged document opens with its fonts.
         let doc = r["files"][0].as_str().unwrap().to_string();
         assert_eq!(Session::new().execute("file.open", &json!({"path": doc})).unwrap()["documentFonts"], 1);

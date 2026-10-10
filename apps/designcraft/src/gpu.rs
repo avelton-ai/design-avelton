@@ -16,7 +16,7 @@
 //! there at the next start means the previous start never got that far — the driver crashed, or
 //! the app was killed meanwhile — so that backend joins `failed`, the next candidate is tried and
 //! the status bar says so. When every candidate has failed the list starts over, and so does a
-//! new DesignCraft version (drivers and wgpu move on). `DESIGNCRAFT_NO_PREFS` records nothing.
+//! new Design Avelton version (drivers and wgpu move on). `DESIGNCRAFT_NO_PREFS` records nothing.
 
 use std::path::{Path, PathBuf};
 
@@ -83,7 +83,7 @@ pub fn candidates() -> &'static [Backend] {
 /// What `gpu.json` holds.
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Record {
-    /// The DesignCraft version that wrote the record; another version starts afresh.
+    /// The Design Avelton version that wrote the record; another version starts afresh.
     #[serde(default)]
     pub version: String,
     /// The backend of a start that has not presented a frame yet.
