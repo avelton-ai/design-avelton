@@ -102,6 +102,7 @@ jobs:
     - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
       with:
         key: release-windows-${{ matrix.arch }}
+        cache-on-failure: true
     - name: Install WiX
       shell: pwsh
       run: dotnet tool install --global wix --version 5.0.2
@@ -167,6 +168,7 @@ jobs:
     - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
       with:
         key: release-linux-${{ matrix.arch }}
+        cache-on-failure: true
     - name: Build and package (AppImage, deb, rpm, tar.gz)
       env:
         CRAFT_FONTS_DIR: ${{ github.workspace }}/craft-fonts
@@ -213,6 +215,7 @@ jobs:
     - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
       with:
         key: release-web
+        cache-on-failure: true
     - name: Install trunk
       run: |
         archive="$RUNNER_TEMP/trunk.tar.gz"
@@ -331,6 +334,7 @@ jobs:
     - uses: Swatinem/rust-cache@v2
       with:
         key: release-macos-${{ matrix.target }}
+        cache-on-failure: true
     - name: Build native slice
       run: cargo build --release --locked -p designcraft -p designcraft-cli --target "${{ matrix.target }}"
     - uses: actions/upload-artifact@v4
