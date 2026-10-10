@@ -937,7 +937,7 @@ pub(super) const TABLE: &[(&str, &str)] = &[
     ("[No Group]", "[Nessun gruppo]"),
     ("[None]", "[Nessuno]"),
     ("[None] — choose a colour on the ramp.", "[Nessuno] — scegli un colore sulla barra dei colori."),
-    ("discord.gg/artcraft — help, feedback and show-and-tell", "discord.gg/artcraft — aiuto, feedback e condivisione dei lavori"),
+    ("Avelton support on GitHub", "Assistenza Avelton su GitHub"),
     ("⌥-click clears overrides", "⌥-clic cancella le modifiche locali"),
     ("⚠ out of date", "⚠ non aggiornato"),
     ("General", "Generale"),

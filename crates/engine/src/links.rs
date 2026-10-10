@@ -15,6 +15,12 @@ pub const GITHUB: &str = "https://github.com/avelton-ai/design-avelton";
 /// Where to report bugs and request features.
 pub const ISSUES: &str = "https://github.com/avelton-ai/design-avelton/issues";
 
+/// App links accept the original command slugs and the Avelton product names.
+pub fn page_of(slug: &str) -> String {
+    let product = slug.strip_suffix("-avelton").or_else(|| slug.strip_suffix("craft")).unwrap_or(slug);
+    format!("https://{product}.avelton.online")
+}
+
 /// All links as JSON (the `app.links` command).
 pub fn all() -> Value {
     json!({

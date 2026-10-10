@@ -161,7 +161,7 @@ pub(super) const TABLE: &[(&str, &str)] = &[
     ("Avelton support", "دعم Avelton"),
     ("Community", "المجتمع"),
     ("Join the community", "انضم إلى المجتمع"),
-    ("discord.gg/artcraft — help, feedback and show-and-tell", "discord.gg/artcraft — مساعدة وآراء وعرض الأعمال"),
+    ("Avelton support on GitHub", "دعم Avelton على GitHub"),
     ("  OK  ", "  موافق  "),
     ("Float panel", "تعويم اللوحة"),
     ("Dock panel", "إرساء اللوحة"),

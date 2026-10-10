@@ -1873,13 +1873,13 @@ const TABLE: &[(&str, [&str; 5])] = &[
         ],
     ),
     (
-        "discord.gg/artcraft — help, feedback and show-and-tell",
+        "Avelton support on GitHub",
         [
-            "discord.gg/artcraft — help, feedback and show-and-tell",
-            "discord.gg/artcraft — help, feedback and show-and-tell",
-            "discord.gg/artcraft — help, feedback and show-and-tell",
-            "discord.gg/artcraft — help, feedback and show-and-tell",
-            "discord.gg/artcraft — 帮助、反馈和展示",
+            "Avelton support on GitHub",
+            "Avelton support on GitHub",
+            "Avelton support on GitHub",
+            "Avelton support on GitHub",
+            "GitHub 上的 Avelton 支持",
         ],
     ),
     (
