@@ -1,59 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  DesignCraft MSI (WiX Toolset v5: `dotnet tool install -g wix`). Built by package.ps1:
+  Design Avelton MSI (WiX Toolset v5: `dotnet tool install -g wix`). Built by package.ps1:
 
     wix build designcraft.wxs -arch x64 -d Version=1.2.3 -d BinDir=... -d IconPath=... -o out.msi
 
-  Per-machine install into Program Files, a Start Menu shortcut, `.pcraft` owned by DesignCraft,
-  and DesignCraft offered under "Open with" for PSD/PSB and the image formats it reads (without
+  Per-machine install into Program Files, a Start Menu shortcut, `.pcraft` owned by Design Avelton,
+  and Design Avelton offered under "Open with" for PSD/PSB and the image formats it reads (without
   taking over the user's default app for them).
 -->
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Package
-      Name="DesignCraft"
-      Manufacturer="Learning Machines LLC"
+      Name="Design Avelton"
+      Manufacturer="Avelton"
       Version="$(var.Version)"
-      UpgradeCode="49E87D30-BB68-4896-AA1D-F45C833CFC3C"
+      UpgradeCode="D126F943-45DE-50AD-912D-B7F7F9274280"
       Scope="perMachine"
       Compressed="yes"
       Language="1033">
-    <SummaryInformation Description="DesignCraft page layout and publishing" Manufacturer="Learning Machines LLC" />
+    <SummaryInformation Description="Design Avelton page layout and publishing" Manufacturer="Avelton" />
     <!-- Same-version upgrades let successive pre-releases of one X.Y.Z replace each other
          (MSI versions are numeric, so 1.2.3-rc.1 and 1.2.3-rc.2 are both 1.2.3). -->
     <MajorUpgrade AllowSameVersionUpgrades="yes"
-        DowngradeErrorMessage="A newer version of DesignCraft is already installed." />
+        DowngradeErrorMessage="A newer version of Design Avelton is already installed." />
     <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
 
     <Icon Id="DesigncraftIcon.ico" SourceFile="$(var.IconPath)" />
     <Property Id="ARPPRODUCTICON" Value="DesigncraftIcon.ico" />
-    <Property Id="ARPURLINFOABOUT" Value="https://getartcraft.com/apps/designcraft" />
-    <Property Id="ARPURLUPDATEINFO" Value="https://getartcraft.com/apps/designcraft" />
-    <Property Id="ARPHELPLINK" Value="https://discord.gg/artcraft" />
+    <Property Id="ARPURLINFOABOUT" Value="https://design.avelton.online" />
+    <Property Id="ARPURLUPDATEINFO" Value="https://design.avelton.online" />
+    <Property Id="ARPHELPLINK" Value="https://github.com/avelton-ai/design-avelton/issues" />
 
     <StandardDirectory Id="ProgramFiles6432Folder">
-      <Directory Id="INSTALLFOLDER" Name="DesignCraft" />
+      <Directory Id="INSTALLFOLDER" Name="Design Avelton" />
     </StandardDirectory>
     <StandardDirectory Id="ProgramMenuFolder" />
 
-    <Feature Id="Main" Title="DesignCraft" Level="1">
+    <Feature Id="Main" Title="Design Avelton" Level="1">
       <ComponentGroupRef Id="DesigncraftFiles" />
     </Feature>
   </Package>
 
   <Fragment>
     <ComponentGroup Id="DesigncraftFiles" Directory="INSTALLFOLDER">
-      <Component Id="DesigncraftApp" Guid="DE018EF3-EE87-4E36-9F76-0B7B060A195E">
-        <File Id="DesigncraftExe" Source="$(var.BinDir)\designcraft.exe" KeyPath="yes">
-          <Shortcut Id="StartMenuShortcut" Directory="ProgramMenuFolder" Name="DesignCraft"
-              Description="DesignCraft page layout and publishing" WorkingDirectory="INSTALLFOLDER" Advertise="yes"
+      <Component Id="DesigncraftApp" Guid="094DB727-5358-5D5E-A08F-A71A3D47A599">
+        <File Id="DesigncraftExe" Source="$(var.BinDir)\design-avelton.exe" KeyPath="yes">
+          <Shortcut Id="StartMenuShortcut" Directory="ProgramMenuFolder" Name="Design Avelton"
+              Description="Design Avelton page layout and publishing" WorkingDirectory="INSTALLFOLDER" Advertise="yes"
               Icon="DesigncraftIcon.ico" IconIndex="0" />
         </File>
 
-        <RegistryValue Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\App Paths\designcraft.exe" Value="[#DesigncraftExe]" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\App Paths\design-avelton.exe" Value="[#DesigncraftExe]" Type="string" />
       </Component>
 
       <Component Id="DesigncraftCli">
-        <File Id="DesigncraftCliExe" Source="$(var.BinDir)\designcraft-cli.exe" KeyPath="yes" />
+        <File Id="DesigncraftCliExe" Source="$(var.BinDir)\design-avelton-cli.exe" KeyPath="yes" />
+      </Component>
+      <Component Id="AveltonNotices" Guid="2D6A9A41-5BBB-5DFF-A6AC-B77067540730">
+        <File Id="AveltonNotice0" Source="$(sys.SOURCEFILEDIR)..\..\NOTICE" />
+        <File Id="AveltonNotice1" Source="$(sys.SOURCEFILEDIR)..\..\avelton.json" />
+        <File Id="AveltonNotice2" Source="$(sys.SOURCEFILEDIR)..\..\assets\fonts\OFL-Inter.txt" />
+        <File Id="AveltonNotice3" Source="$(sys.SOURCEFILEDIR)..\..\assets\fonts\OFL-JetBrainsMono.txt" />
+        <File Id="AveltonNotice4" Source="$(sys.SOURCEFILEDIR)..\..\assets\fonts\OFL-SourceSans3.txt" />
+        <File Id="AveltonNotice5" Source="$(sys.SOURCEFILEDIR)..\..\assets\fonts\OFL-SourceSerif4.txt" />
       </Component>
     </ComponentGroup>
   </Fragment>

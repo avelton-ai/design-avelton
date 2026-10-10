@@ -1,13 +1,13 @@
 [Desktop Entry]
 Type=Application
-Name=DesignCraft
+Name=Design Avelton
 GenericName=Page Layout
 Comment=Lay out magazines, books and print documents
-Exec=designcraft %F
-TryExec=designcraft
-Icon=ai.storyteller.designcraft
+Exec=design-avelton %F
+TryExec=design-avelton
+Icon=online.avelton.design
 Terminal=false
 StartupNotify=true
-StartupWMClass=ai.storyteller.designcraft
+StartupWMClass=online.avelton.design
 Categories=Graphics;Publishing;
 Keywords=layout;page;desktop publishing;dtp;magazine;book;indesign;idml;typesetting;

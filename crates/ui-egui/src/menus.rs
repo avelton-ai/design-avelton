@@ -142,15 +142,15 @@ pub const UI_COMMANDS: &[(&str, &str, Option<&str>, &str)] = &[
         "{on?: bool, at?: [x, y] (points from the canvas's top-left)} — the Contextual Task Bar stays where it is (or at `at`) instead of following the selection; with neither, toggles",
     ),
     ("window.taskBarReset", "Reset Bar Position", None, "{} — the Contextual Task Bar follows the selection again, under it"),
-    ("help.discord", "Join the ArtCraft Discord…", None, "{} — opens https://discord.gg/artcraft in the browser"),
-    ("help.appPage", "DesignCraft Website…", None, "{} — opens https://getartcraft.com/apps/designcraft"),
-    ("help.github", "DesignCraft on GitHub…", None, "{} — opens https://github.com/storytold/designcraft"),
+    ("help.discord", "Avelton support…", None, "{} — opens https://github.com/avelton-ai/design-avelton/issues in the browser"),
+    ("help.appPage", "Design Avelton Website…", None, "{} — opens https://design.avelton.online"),
+    ("help.github", "Design Avelton on GitHub…", None, "{} — opens https://github.com/avelton-ai/design-avelton"),
     ("help.issues", "Report an Issue…", None, "{} — opens the GitHub issue tracker"),
-    ("help.website", "ArtCraft Website…", None, "{} — opens https://getartcraft.com"),
-    ("help.app", "ArtCraft App Page…", None, "{app} — opens https://getartcraft.com/apps/{app} (e.g. photocraft)"),
+    ("help.website", "Avelton Website…", None, "{} — opens https://avelton.online"),
+    ("help.app", "Avelton App Page…", None, "{app} → {url} (e.g. photocraft, photo or photo-avelton)"),
     (
         "help.about",
-        "About DesignCraft",
+        "About Design Avelton",
         None,
         "{open?: true, tab?: \"about\"|\"contributors\"|\"models\"} — the About window: splash with community links, contributor and model credits (open: false closes it)",
     ),
@@ -1351,7 +1351,7 @@ pub fn run_ui(app: &mut DesignApp, id: &str, p: &Value) -> Option<Result<Value, 
         }
         "help.app" => match p.get("app").and_then(Value::as_str) {
             Some(slug) if !slug.is_empty() && slug.chars().all(|c| c.is_ascii_alphanumeric() || c == '-') => {
-                let url = format!("{}/apps/{slug}", designcraft_engine::links::WEBSITE);
+                let url = designcraft_engine::links::page_of(slug);
                 app.ui.pending_urls.push(url.clone());
                 Ok(json!({"url": url}))
             }

@@ -43,3 +43,10 @@ Rust dependencies (vello_cpu, kurbo, skrifa, harfrust, image, egui, eframe, …)
 licensed (MIT/Apache-2.0/BSD/ISC/Zlib) and fetched through crates.io.
 
 No Adobe icons, images or artwork are included.
+
+Avelton distribution
+Based on DesignCraft, https://github.com/storytold/designcraft, commit fc2ce5556f0e5fa93d1678cadc57792acd434591.
+Original source copyrights and licences above are retained.
+Original Avelton geometric artwork: copyright 2026 Avelton contributors, MIT OR Apache-2.0.
+Inter lettering: OFL-1.1, see the bundled Inter font licence.
+Avelton is independently maintained; no endorsement by the upstream authors is implied.

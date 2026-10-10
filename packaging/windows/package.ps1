@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Build, sign and package DesignCraft for Windows.
+  Build, sign and package Design Avelton for Windows.
 
 .DESCRIPTION
   Produces, in $env:DIST (default: dist/release):
@@ -53,7 +53,7 @@ New-Item -ItemType Directory -Force -Path $Dist | Out-Null
 if (-not $env:DESIGNCRAFT_BUILD_SHA) { $env:DESIGNCRAFT_BUILD_SHA = (git -C $Root rev-parse HEAD 2>$null) }
 if (-not $env:DESIGNCRAFT_BUILD_DATE) { $env:DESIGNCRAFT_BUILD_DATE = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd') }
 
-Write-Output "DesignCraft $Version for Windows $Arch ($Target)"
+Write-Output "Design Avelton $Version for Windows $Arch ($Target)"
 
 if (-not $SkipBuild) {
   # Static CRT: no VC++ redistributable needed. Scoped to the target so host build scripts and
@@ -83,15 +83,23 @@ foreach ($check in @(@('designcraft.exe', 2), @('designcraft-cli.exe', 3))) {
   if ($h.Subsystem -ne $check[1]) { throw "$($check[0]) has PE subsystem $($h.Subsystem), expected $($check[1])" }
   Write-Output "ok $($check[0]): $Arch, PE subsystem $($h.Subsystem)"
 }
-$Stage = Join-Path $TargetDir "windows-package\$Arch"
-Remove-Item -Recurse -Force $Stage -ErrorAction SilentlyContinue
-New-Item -ItemType Directory -Force -Path $Stage | Out-Null
-Copy-Item (Join-Path $Bin 'designcraft.exe'), (Join-Path $Bin 'designcraft-cli.exe') $Stage
+function Remove-PackageDirectory([string] $Path) {
+  $absolute = [IO.Path]::GetFullPath($Path)
+  $boundary = [IO.Path]::GetFullPath($TargetDir).TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar
+  if (-not $absolute.StartsWith($boundary, [StringComparison]::OrdinalIgnoreCase)) { throw 'package path outside target directory' }
+  if (Test-Path -LiteralPath $absolute) { Remove-Item -LiteralPath $absolute -Recurse -Force }
+}
 
-& (Join-Path $PSScriptRoot 'sign.ps1') (Join-Path $Stage 'designcraft.exe') (Join-Path $Stage 'designcraft-cli.exe')
+$Stage = Join-Path $TargetDir "windows-package\$Arch"
+Remove-PackageDirectory $Stage
+New-Item -ItemType Directory -Force -Path $Stage | Out-Null
+Copy-Item -LiteralPath (Join-Path $Bin 'designcraft.exe') -Destination (Join-Path $Stage 'design-avelton.exe')
+Copy-Item -LiteralPath (Join-Path $Bin 'designcraft-cli.exe') -Destination (Join-Path $Stage 'design-avelton-cli.exe')
+
+& (Join-Path $PSScriptRoot 'sign.ps1') (Join-Path $Stage 'design-avelton.exe') (Join-Path $Stage 'design-avelton-cli.exe')
 
 # ---- MSI ---------------------------------------------------------------------------------------
-$Msi = Join-Path $Dist "designcraft-$Version-windows-$Arch.msi"
+$Msi = Join-Path $Dist "design-avelton-$Version-windows-$Arch.msi"
 Invoke-Native 'wix build' {
   wix build (Join-Path $PSScriptRoot 'designcraft.wxs') -arch $Arch `
     -d "Version=$MsiVersion" -d "BinDir=$Stage" -d "IconPath=$(Join-Path $Root 'assets\app-icon\designcraft.ico')" `
@@ -102,11 +110,11 @@ Remove-Item -Force -ErrorAction SilentlyContinue ([IO.Path]::ChangeExtension($Ms
 & (Join-Path $PSScriptRoot 'sign.ps1') $Msi
 
 # ---- portable zip ------------------------------------------------------------------------------
-$Portable = Join-Path $TargetDir "windows-package\designcraft-$Version-windows-$Arch-portable"
-Remove-Item -Recurse -Force $Portable -ErrorAction SilentlyContinue
+$Portable = Join-Path $TargetDir "windows-package\design-avelton-$Version-windows-$Arch-portable"
+Remove-PackageDirectory $Portable
 New-Item -ItemType Directory -Force -Path $Portable | Out-Null
 Copy-Item (Join-Path $Stage '*.exe') $Portable
-foreach ($f in 'README.md', 'LICENSE', 'LICENSE-MIT', 'LICENSE-APACHE') {
+foreach ($f in 'README.md', 'LICENSE', 'LICENSE-MIT', 'LICENSE-APACHE', 'NOTICE', 'avelton.json') {
   $p = Join-Path $Root $f
   if (Test-Path $p) { Copy-Item $p $Portable }
 }
@@ -116,7 +124,7 @@ if ($env:CRAFT_FONTS_DIR) {
     Copy-Item $ofl.FullName (Join-Path $Portable "OFL-$($ofl.Directory.Name).txt")
   }
 }
-$Zip = Join-Path $Dist "designcraft-$Version-windows-$Arch-portable.zip"
+$Zip = Join-Path $Dist "design-avelton-$Version-windows-$Arch-portable.zip"
 Remove-Item -Force $Zip -ErrorAction SilentlyContinue
 Compress-Archive -Path $Portable -DestinationPath $Zip
 
@@ -124,7 +132,7 @@ Compress-Archive -Path $Portable -DestinationPath $Zip
 # here; .github/workflows/windows-arm64.yml installs and runs it on ARM64 instead.
 $HostArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLowerInvariant()
 if ($Arch -ne 'arm64' -or $HostArch -eq 'arm64') {
-  Invoke-Native 'designcraft-cli --version' { & (Join-Path $Stage 'designcraft-cli.exe') --version }
+  Invoke-Native 'designcraft-cli --version' { & (Join-Path $Stage 'design-avelton-cli.exe') --version }
 } else {
   Write-Output "skipping designcraft-cli --version: an $Arch build doesn't run on this $HostArch machine"
 }

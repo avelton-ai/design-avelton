@@ -1,7 +1,7 @@
 # MCP server
 
 `designcraft-cli mcp` is a [Model Context Protocol](https://modelcontextprotocol.io) server that lets Claude and
-other agents drive DesignCraft: create documents, lay out frames and text, apply styles, place images, and look at
+other agents drive Design Avelton: create documents, lay out frames and text, apply styles, place images, and look at
 the result as PNG images. It speaks newline-delimited JSON-RPC 2.0 on stdin/stdout (protocol `2025-06-18`, also
 `2025-03-26` and `2024-11-05`); logs go to stderr. The implementation is the `designcraft-mcp` crate.
 
@@ -30,13 +30,13 @@ The release packages ship `designcraft-cli` alongside the desktop app, so no bui
 
 | Install | CLI |
 |---|---|
-| Windows (MSI) | `C:\Program Files\DesignCraft\designcraft-cli.exe` by default (wherever you installed it otherwise), not on `PATH` |
+| Windows (MSI) | `C:\Program Files\Design Avelton\designcraft-cli.exe` by default (wherever you installed it otherwise), not on `PATH` |
 | Linux (deb, rpm) | `/usr/bin/designcraft-cli` |
 | macOS | the separate `designcraft-cli-<version>-macos-<arch>.zip` release asset (the `.app` holds only the desktop app) |
 
 ```sh
 # Windows, default install folder
-claude mcp add designcraft -- "C:\Program Files\DesignCraft\designcraft-cli.exe" mcp
+claude mcp add designcraft -- "C:\Program Files\Design Avelton\designcraft-cli.exe" mcp
 # Linux, or macOS with the CLI unzipped onto PATH
 claude mcp add designcraft -- designcraft-cli mcp
 ```
@@ -118,4 +118,4 @@ key        {"key": "Escape"}
 
 ## Community links
 
-`app.links` returns the ArtCraft Discord (https://discord.gg/artcraft), the website (https://getartcraft.com), DesignCraft's app page (https://getartcraft.com/apps/designcraft), its GitHub repository (https://github.com/storytold/designcraft) and the issue tracker. In the running app, the UI commands `help.discord`, `help.appPage`, `help.github`, `help.issues`, `help.website`, `help.app {app}` open them in the browser and `help.about {tab?}` shows the About window (tabs `about`, `contributors`, `models`). The server's `serverInfo.websiteUrl` is the app page.
+`app.links` returns the Avelton Discord (https://github.com/avelton-ai/design-avelton/issues), the website (https://avelton.online), Design Avelton's app page (https://design.avelton.online), its GitHub repository (https://github.com/avelton-ai/design-avelton) and the issue tracker. In the running app, the UI commands `help.discord`, `help.appPage`, `help.github`, `help.issues`, `help.website`, `help.app {app}` open them in the browser and `help.about {tab?}` shows the About window (tabs `about`, `contributors`, `models`). The server's `serverInfo.websiteUrl` is the app page.
