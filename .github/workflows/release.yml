@@ -233,7 +233,7 @@ jobs:
         if-no-files-found: error
     - name: Install browser verification tools
       run: |-
-        python3 -m pip install --disable-pip-version-check pillow playwright
+        python3 -m pip install --disable-pip-version-check pillow playwright==1.63.0
         python3 -m playwright install --with-deps chromium
     - name: Verify actual browser bundle
       run: python3 scripts/avelton-web-smoke.py dist/release/design-avelton-web-*.zip

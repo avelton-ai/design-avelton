@@ -1,4 +1,4 @@
-//! `designcraft-cli perf` / `bench`: the performance budgets (plan/architecture.md §9) measured on
+//! `design-avelton-cli perf` / `bench`: the performance budgets (plan/architecture.md §9) measured on
 //! a synthetic stress document, or on a given file.
 //!
 //! Each row is the median of several runs. Timings are wall-clock: on a busy machine (load
@@ -544,7 +544,7 @@ fn header() -> (usize, bool) {
     (cores, noisy)
 }
 
-/// `designcraft-cli perf [--pages N] [--frames N] [--chars N] [--images N] [--runs N] [--strict]`.
+/// `design-avelton-cli perf [--pages N] [--frames N] [--chars N] [--images N] [--runs N] [--strict]`.
 pub fn perf(args: &[String]) -> Result<(), String> {
     let mut spec = Spec::default();
     let mut runs = 7usize;
@@ -582,7 +582,7 @@ pub fn perf(args: &[String]) -> Result<(), String> {
     if strict && over > 0 && !noisy { Err(format!("{over} budget(s) exceeded")) } else { Ok(()) }
 }
 
-/// `designcraft-cli bench FILE [--runs N]`: the same measurements on one document.
+/// `design-avelton-cli bench FILE [--runs N]`: the same measurements on one document.
 pub fn bench(args: &[String]) -> Result<(), String> {
     let mut file = None;
     let mut runs = 5usize;
@@ -594,7 +594,7 @@ pub fn bench(args: &[String]) -> Result<(), String> {
             other => return Err(format!("unknown bench option `{other}`")),
         }
     }
-    let file = file.ok_or("usage: designcraft-cli bench FILE [--runs N]")?;
+    let file = file.ok_or("usage: design-avelton-cli bench FILE [--runs N]")?;
     let (_, noisy) = header();
     let mut s = designcraft_engine::Session::new();
     let t = Instant::now();

@@ -1,25 +1,25 @@
 //! Headless Design Avelton.
 //!
 //! ```text
-//! designcraft-cli run [--in FILE.designcraft|FILE.idml | --sample] [--cmd ID[=JSON]]... [--page N] [--scale S] [--pdf-options JSON] [--export OUT.png|.jpg|.pdf|.designcraft|.idml|.epub] [--all-pages DIR]
+//! design-avelton-cli run [--in FILE.designcraft|FILE.idml | --sample] [--cmd ID[=JSON]]... [--page N] [--scale S] [--pdf-options JSON] [--export OUT.png|.jpg|.pdf|.designcraft|.idml|.epub] [--all-pages DIR]
 //!                                      # --page, --scale and --pdf-options apply to the exports that follow them
-//! designcraft-cli commands [FILTER]   # list commands (JSON), optionally only ids/labels/menus containing FILTER
-//! designcraft-cli describe ID          # one command: label, menu, shortcut, parameters
-//! designcraft-cli script [FILE|-] [--in FILE | --sample] [--connect PORT] [--save OUT] [--export OUT] [--keep-going]
+//! design-avelton-cli commands [FILTER]   # list commands (JSON), optionally only ids/labels/menus containing FILTER
+//! design-avelton-cli describe ID          # one command: label, menu, shortcut, parameters
+//! design-avelton-cli script [FILE|-] [--in FILE | --sample] [--connect PORT] [--save OUT] [--export OUT] [--keep-going]
 //!                                      # run a command script (crates/engine/src/script.rs): `$N.path` references
-//! designcraft-cli app [--port PORT] COMMAND [JSON]   # run a command in the running app (designcraft --control PORT)
-//! designcraft-cli app [--port PORT] --method METHOD [JSON]   # any control-channel method (ui.screenshot, ui.render, …)
-//! designcraft-cli mcp [--connect PORT] [--sample]  # MCP server over stdio (docs/mcp.md)
-//! designcraft-cli perf [--pages N] [--frames N] [--chars N] [--images N] [--runs N] [--strict]  # budgets on a synthetic stress document
-//! designcraft-cli bench FILE [--runs N]  # the same measurements on one document
-//! designcraft-cli validate-pdf FILE.pdf    # run the built-in PDF/X-4 conformance checks
-//! designcraft-cli links                   # Discord, website, app page and GitHub links
-//! designcraft-cli --version               # print the version
+//! design-avelton-cli app [--port PORT] COMMAND [JSON]   # run a command in the running app (designcraft --control PORT)
+//! design-avelton-cli app [--port PORT] --method METHOD [JSON]   # any control-channel method (ui.screenshot, ui.render, …)
+//! design-avelton-cli mcp [--connect PORT] [--sample]  # MCP server over stdio (docs/mcp.md)
+//! design-avelton-cli perf [--pages N] [--frames N] [--chars N] [--images N] [--runs N] [--strict]  # budgets on a synthetic stress document
+//! design-avelton-cli bench FILE [--runs N]  # the same measurements on one document
+//! design-avelton-cli validate-pdf FILE.pdf    # run the built-in PDF/X-4 conformance checks
+//! design-avelton-cli links                   # Discord, website, app page and GitHub links
+//! design-avelton-cli --version               # print the version
 //! ```
 #![deny(clippy::unwrap_used, clippy::expect_used, clippy::panic, clippy::unimplemented, clippy::todo, clippy::unreachable)]
 use std::process::ExitCode;
 
-/// `println!` that ends the program quietly when stdout is closed (`designcraft-cli commands |
+/// `println!` that ends the program quietly when stdout is closed (`design-avelton-cli commands |
 /// head`) instead of panicking with "failed printing to stdout: Broken pipe (os error 32)".
 macro_rules! outln {
     ($($arg:tt)*) => {{
@@ -36,7 +36,7 @@ use designcraft_engine::Session;
 use serde_json::{Value, json};
 
 /// The usage block. Shared by `--help` (stdout, success) and an unknown command (stderr, failure).
-const USAGE: &str = "usage: designcraft-cli run [--in FILE | --sample] [--cmd ID[=JSON]]... [--page N] [--scale S] [--pdf-options JSON] [--export OUT] [--all-pages DIR]\n         (--page, --scale and --pdf-options apply to the exports that follow them)\n       designcraft-cli commands [FILTER]\n       designcraft-cli describe COMMAND\n       designcraft-cli script [FILE|-] [--in FILE | --sample] [--connect PORT] [--save OUT] [--export OUT] [--keep-going]\n       designcraft-cli app [--port PORT] COMMAND [JSON] | --method METHOD [JSON]\n       designcraft-cli mcp [--connect PORT] [--sample]\n       designcraft-cli perf [--pages N] [--runs N] [--strict]\n       designcraft-cli bench FILE [--runs N]\n       designcraft-cli links\n       designcraft-cli --version";
+const USAGE: &str = "usage: design-avelton-cli run [--in FILE | --sample] [--cmd ID[=JSON]]... [--page N] [--scale S] [--pdf-options JSON] [--export OUT] [--all-pages DIR]\n         (--page, --scale and --pdf-options apply to the exports that follow them)\n       design-avelton-cli commands [FILTER]\n       design-avelton-cli describe COMMAND\n       design-avelton-cli script [FILE|-] [--in FILE | --sample] [--connect PORT] [--save OUT] [--export OUT] [--keep-going]\n       design-avelton-cli app [--port PORT] COMMAND [JSON] | --method METHOD [JSON]\n       design-avelton-cli mcp [--connect PORT] [--sample]\n       design-avelton-cli perf [--pages N] [--runs N] [--strict]\n       design-avelton-cli bench FILE [--runs N]\n       design-avelton-cli links\n       design-avelton-cli --version";
 
 /// The links line under the usage block.
 fn usage_footer() -> String {
@@ -54,7 +54,7 @@ fn stdout_failed(e: std::io::Error) -> ! {
     if e.kind() == std::io::ErrorKind::BrokenPipe {
         std::process::exit(0);
     }
-    eprintln!("designcraft-cli: can't write to stdout: {e}");
+    eprintln!("design-avelton-cli: can't write to stdout: {e}");
     std::process::exit(1);
 }
 
@@ -62,7 +62,7 @@ fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
     match args.first().map(String::as_str) {
         Some("--version" | "-V" | "version") => {
-            outln!("designcraft-cli {}", env!("CARGO_PKG_VERSION"));
+            outln!("design-avelton-cli {}", env!("CARGO_PKG_VERSION"));
             ExitCode::SUCCESS
         }
         Some("run") => report(run(&args[1..])),
@@ -110,14 +110,14 @@ fn report(r: Result<(), String>) -> ExitCode {
     match r {
         Ok(()) => ExitCode::SUCCESS,
         Err(e) => {
-            eprintln!("designcraft-cli: {e}");
+            eprintln!("design-avelton-cli: {e}");
             ExitCode::FAILURE
         }
     }
 }
 
 fn validate_pdf(path: Option<&str>) -> Result<(), String> {
-    let path = path.ok_or("usage: designcraft-cli validate-pdf FILE.pdf")?;
+    let path = path.ok_or("usage: design-avelton-cli validate-pdf FILE.pdf")?;
     let bytes = std::fs::read(path).map_err(|e| format!("{path}: {e}"))?;
     let issues = designcraft_pdf::check_pdfx4(&bytes);
     let valid = issues.is_empty();
@@ -137,7 +137,7 @@ fn mcp(args: &[String]) -> Result<(), String> {
         match a.as_str() {
             "--connect" => connect = Some(it.next().cloned().ok_or("--connect needs a port or host:port")?),
             "--sample" => sample = true,
-            other => return Err(format!("unknown mcp option `{other}` (usage: designcraft-cli mcp [--connect PORT] [--sample])")),
+            other => return Err(format!("unknown mcp option `{other}` (usage: design-avelton-cli mcp [--connect PORT] [--sample])")),
         }
     }
     let backend: Box<dyn Backend> = match connect {
@@ -156,7 +156,7 @@ fn mcp(args: &[String]) -> Result<(), String> {
             Box::new(h)
         }
     };
-    eprintln!("designcraft-cli: MCP server on stdio ({})", backend.describe());
+    eprintln!("design-avelton-cli: MCP server on stdio ({})", backend.describe());
     let stdin = std::io::stdin();
     let stdout = std::io::stdout();
     Server::new(backend).serve(stdin.lock(), stdout.lock()).map_err(|e| e.to_string())
@@ -288,7 +288,7 @@ fn export(s: &mut Session, out: &str, page: usize, scale: f64) -> Result<(), Str
 
 /// `describe ID`: one command's documentation.
 fn describe(id: Option<&str>) -> Result<(), String> {
-    let id = id.ok_or("usage: designcraft-cli describe COMMAND")?;
+    let id = id.ok_or("usage: design-avelton-cli describe COMMAND")?;
     let s = Session::new();
     let all = serde_json::to_value(s.commands()).map_err(|e| e.to_string())?;
     let c = all.as_array().and_then(|a| a.iter().find(|c| c["id"] == id)).ok_or_else(|| {
@@ -422,7 +422,7 @@ fn app(args: &[String]) -> Result<(), String> {
     let out = match method {
         Some(m) => r.call(&m, json_arg(rest.first())?)?,
         None => {
-            let cmd = rest.first().ok_or("usage: designcraft-cli app [--port PORT] COMMAND [JSON]")?;
+            let cmd = rest.first().ok_or("usage: design-avelton-cli app [--port PORT] COMMAND [JSON]")?;
             r.call("engine.execute", json!({"command": cmd, "params": json_arg(rest.get(1))?}))?
         }
     };

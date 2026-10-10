@@ -241,7 +241,7 @@ fn main() -> eframe::Result {
             "--control" => control_port = control_port_from("--control", args.next()),
             "--sample" => sample = true,
             "--version" => {
-                println!("designcraft {}", env!("CARGO_PKG_VERSION"));
+                println!("design-avelton {}", env!("CARGO_PKG_VERSION"));
                 return Ok(());
             }
             _ => files.push(a),

@@ -2,7 +2,7 @@
 
 use serde_json::{Value, json};
 
-/// The app's slug on getartcraft.com and GitHub.
+/// The app's slug on avelton.online and GitHub.
 pub const APP: &str = "designcraft";
 /// The Avelton community Discord.
 pub const DISCORD: &str = "https://github.com/avelton-ai/design-avelton/issues";
@@ -44,8 +44,8 @@ mod tests {
 
     #[test]
     fn links_follow_the_app_slug() {
-        assert!(APP_PAGE.ends_with(&format!("/apps/{APP}")));
-        assert!(GITHUB.ends_with(&format!("/storytold/{APP}")));
+        assert_eq!(APP_PAGE, "https://design.avelton.online");
+        assert_eq!(GITHUB, "https://github.com/avelton-ai/design-avelton");
         assert!(ISSUES.starts_with(GITHUB));
         for k in ["discord", "website", "appPage", "github", "issues"] {
             assert!(get(k).is_some_and(|u| u.starts_with("https://")), "{k}");
